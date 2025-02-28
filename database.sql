@@ -1,4 +1,4 @@
 USE MoneyMind
 
 -- @block 
-select * from users
+select * from categories
