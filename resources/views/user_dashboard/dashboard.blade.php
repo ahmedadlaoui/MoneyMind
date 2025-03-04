@@ -56,63 +56,17 @@
 </head>
 
 <body>
-    
+
 
     <div class="flex h-screen bg-gray-50">
-    <!-- Sidebar -->
-    <aside class="w-64 bg-[#2E2E2E] text-white">
-            <div class="p-6">
-                <a href="/" class="inline-flex items-center space-x-2">
-                    <svg class="w-8 h-8 text-[#FF6F3C]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                    <span class="text-xl font-bold">MoneyMind</span>
-                </a>
-            </div>
-
-            <nav class="mt-6">
-                <div class="px-4 py-2 text-xs text-gray-400 uppercase">Main</div>
-
-                <a href="/board" class="flex items-center px-6 py-3 text-white bg-[#FF6F3C]/20 border-l-4 border-[#FF6F3C]">
-                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
-                    </svg>
-                    Dashboard
-                </a>
-
-                <div class="px-4 py-2 mt-6 text-xs text-gray-400 uppercase">Income</div>
-                <a href="/income" class="flex items-center px-6 py-3 text-gray-300 hover:bg-[#FF6F3C]/10 hover:text-white transition-colors">
-                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                    Income
-                </a>
-
-                <div class="px-4 py-2 mt-6 text-xs text-gray-400 uppercase">Outcome</div>
-                <a href="/expenses" class="flex items-center px-6 py-3 text-gray-300 hover:bg-[#FF6F3C]/10 hover:text-white transition-colors">
-                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                    </svg>
-                    Expenses
-                </a>
-
-                <div class="px-4 py-2 mt-6 text-xs text-gray-400 uppercase">Settings</div>
-                <a href="/settings" class="flex items-center px-6 py-3 text-gray-300 hover:bg-[#FF6F3C]/10 hover:text-white transition-colors">
-                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                    </svg>
-                    Settings
-                </a>
-            </nav>
-        </aside>
+        @include('components.sidebar', ['active' => 'dashboard'])
 
         <!-- Main Content -->
         <div class="flex-1 overflow-auto">
             <!-- Top Navigation -->
             <header class="bg-white shadow-sm">
-                <div class="flex justify-between items-center px-6 py-4">
-                    <h1 class="text-2xl font-bold text-gray-900">Profile Settings</h1>
+                <div class="flex justify-end items-center px-6 py-4">
+
                     <div class="flex items-center space-x-4">
                         <button class="p-1 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -130,25 +84,25 @@
             </header>
 
 
-                   <!-- Dashboard Content -->
+            <!-- Dashboard Content -->
             <main class="p-6">
                 <!-- Summary Cards -->
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
                     <!-- Current Balance Card -->
-                    <div class="bg-white rounded-lg shadow-sm p-6 stat-card balance-card">
+                    <div class="bg-white rounded-lg shadow-sm p-6">
                         <div class="flex justify-between items-center">
                             <div>
                                 <p class="text-sm text-gray-500 mb-1">Current Balance</p>
                                 <h3 class="text-2xl font-bold text-gray-900">$2,100.00</h3>
                                 <div class="flex items-center mt-1">
-                                    <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-4 h-4 text-[#FF6F3C]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
                                     </svg>
-                                    <span class="text-sm text-green-600 ml-1">+8.1% from last month</span>
+                                    <span class="text-sm text-[#FF6F3C] ml-1">+8.1% from last month</span>
                                 </div>
                             </div>
-                            <div class="bg-green-50 p-3 rounded-full">
-                                <svg class="w-6 h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <div class="bg-[#FF6F3C]/10 p-3 rounded-full">
+                                <svg class="w-6 h-6 text-[#FF6F3C]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3" />
                                 </svg>
                             </div>
@@ -156,20 +110,20 @@
                     </div>
 
                     <!-- Monthly Income Card -->
-                    <div class="bg-white rounded-lg shadow-sm p-6 stat-card income-card">
+                    <div class="bg-white rounded-lg shadow-sm p-6">
                         <div class="flex justify-between items-center">
                             <div>
                                 <p class="text-sm text-gray-500 mb-1">Monthly Income</p>
                                 <h3 class="text-2xl font-bold text-gray-900">$4,250.00</h3>
                                 <div class="flex items-center mt-1">
-                                    <svg class="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-4 h-4 text-[#FF6F3C]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
                                     </svg>
-                                    <span class="text-sm text-blue-600 ml-1">+5.2% from last month</span>
+                                    <span class="text-sm text-[#FF6F3C] ml-1">+5.2% from last month</span>
                                 </div>
                             </div>
-                            <div class="bg-blue-50 p-3 rounded-full">
-                                <svg class="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <div class="bg-[#FF6F3C]/10 p-3 rounded-full">
+                                <svg class="w-6 h-6 text-[#FF6F3C]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                 </svg>
                             </div>
@@ -177,20 +131,20 @@
                     </div>
 
                     <!-- Monthly Expenses Card -->
-                    <div class="bg-white rounded-lg shadow-sm p-6 stat-card expense-card">
+                    <div class="bg-white rounded-lg shadow-sm p-6">
                         <div class="flex justify-between items-center">
                             <div>
                                 <p class="text-sm text-gray-500 mb-1">Monthly Expenses</p>
                                 <h3 class="text-2xl font-bold text-gray-900">$2,150.00</h3>
                                 <div class="flex items-center mt-1">
-                                    <svg class="w-4 h-4 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
                                     </svg>
-                                    <span class="text-sm text-red-600 ml-1">+2.8% from last month</span>
+                                    <span class="text-sm text-gray-500 ml-1">+2.8% from last month</span>
                                 </div>
                             </div>
-                            <div class="bg-red-50 p-3 rounded-full">
-                                <svg class="w-6 h-6 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <div class="bg-gray-100 p-3 rounded-full">
+                                <svg class="w-6 h-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2z" />
                                 </svg>
                             </div>
@@ -198,15 +152,15 @@
                     </div>
 
                     <!-- Savings Goal Card -->
-                    <div class="bg-white rounded-lg shadow-sm p-6 stat-card savings-card">
+                    <div class="bg-white rounded-lg shadow-sm p-6">
                         <div>
                             <div class="flex justify-between items-center mb-2">
                                 <p class="text-sm text-gray-500">Savings Goal</p>
-                                <span class="text-xs font-medium text-purple-600">35%</span>
+                                <span class="text-xs font-medium text-[#FF6F3C]">35%</span>
                             </div>
                             <h3 class="text-2xl font-bold text-gray-900">$3,500 <span class="text-sm text-gray-500 font-normal">/ $10,000</span></h3>
-                            <div class="w-full bg-gray-200 rounded-full h-2.5 mt-2">
-                                <div class="bg-purple-600 h-2.5 rounded-full progress-bar" style="width: 35%"></div>
+                            <div class="w-full bg-gray-100 rounded-full h-2.5 mt-2">
+                                <div class="bg-[#FF6F3C] h-2.5 rounded-full progress-bar" style="width: 35%"></div>
                             </div>
                             <p class="text-xs text-gray-500 mt-2">Vacation Fund</p>
                         </div>
@@ -300,53 +254,26 @@
 
 
     <script>
-        // Income vs Expenses Chart - Past 30 Days
-        const incomeExpensesCtx = document.getElementById('incomeExpensesChart').getContext('2d');
-
-        // Generate last 30 days dates
-        const generateDates = () => {
-            const dates = [];
-            const today = new Date();
-            for (let i = 29; i >= 0; i--) {
-                const date = new Date(today);
-                date.setDate(today.getDate() - i);
-                dates.push(date.getDate() + '/' + (date.getMonth() + 1));
-            }
-            return dates;
-        };
-
-        // Generate random data with a trend
-        const generateData = (base, variance) => {
-            const data = [];
-            let value = base;
-            for (let i = 0; i < 30; i++) {
-                value += (Math.random() - 0.5) * variance;
-                data.push(Math.round(value * 100) / 100);
-            }
-            return data;
-        };
-
-        const incomeExpensesChart = new Chart(incomeExpensesCtx, {
+        const ctx = document.getElementById('incomeExpensesChart').getContext('2d');
+        new Chart(ctx, {
             type: 'line',
             data: {
-                labels: generateDates(),
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
                 datasets: [{
-                        label: 'Income',
-                        data: generateData(150, 30),
-                        borderColor: '#3b82f6',
-                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
-                        tension: 0.3,
-                        fill: true
-                    },
-                    {
-                        label: 'Expenses',
-                        data: generateData(80, 20),
-                        borderColor: '#ef4444',
-                        backgroundColor: 'rgba(239, 68, 68, 0.1)',
-                        tension: 0.3,
-                        fill: true
-                    }
-                ]
+                    label: 'Income',
+                    data: [4200, 4500, 4100, 4800, 4250, 4600],
+                    borderColor: '#FF6F3C',
+                    backgroundColor: 'rgba(255, 111, 60, 0.1)',
+                    fill: true,
+                    tension: 0.4
+                }, {
+                    label: 'Expenses',
+                    data: [2100, 2300, 2000, 2400, 2150, 2250],
+                    borderColor: '#94A3B8',
+                    backgroundColor: 'rgba(148, 163, 184, 0.1)',
+                    fill: true,
+                    tension: 0.4
+                }]
             },
             options: {
                 responsive: true,
@@ -354,32 +281,41 @@
                 plugins: {
                     legend: {
                         position: 'top',
-                    },
-                    tooltip: {
-                        mode: 'index',
-                        intersect: false,
-                    }
-                },
-                scales: {
-                    x: {
-                        ticks: {
-                            maxTicksLimit: 10,
-                            maxRotation: 0
-                        }
-                    },
-                    y: {
-                        beginAtZero: true,
-                        ticks: {
-                            callback: function(value) {
-                                return '$' + value;
+                        labels: {
+                            usePointStyle: true,
+                            padding: 20,
+                            font: {
+                                family: "'Inter', sans-serif",
+                                size: 12
                             }
                         }
                     }
                 },
-                interaction: {
-                    mode: 'nearest',
-                    axis: 'x',
-                    intersect: false
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            display: true,
+                            drawBorder: false,
+                        },
+                        ticks: {
+                            font: {
+                                family: "'Inter', sans-serif",
+                                size: 12
+                            }
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        },
+                        ticks: {
+                            font: {
+                                family: "'Inter', sans-serif",
+                                size: 12
+                            }
+                        }
+                    }
                 }
             }
         });

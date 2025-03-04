@@ -11,6 +11,10 @@ class CategoryController extends Controller
         $Allcategories = category::all();
         return view('admin_dashboard/category',compact('Allcategories'));
     }
+    public function getAllcategories_expenses(){
+        $Allcategories = category::all();
+        return view('user_dashboard/expenses',compact('Allcategories'));
+    }
     public function addCategory(){
         $newcategory = new category();
         $newcategory->category = request('name');

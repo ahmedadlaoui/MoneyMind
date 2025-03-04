@@ -34,60 +34,14 @@
 
 <body>
     <div class="flex h-screen bg-gray-50">
-    <!-- Sidebar -->
-    <aside class="w-64 bg-[#2E2E2E] text-white">
-            <div class="p-6">
-                <a href="/" class="inline-flex items-center space-x-2">
-                    <svg class="w-8 h-8 text-[#FF6F3C]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                    <span class="text-xl font-bold">MoneyMind</span>
-                </a>
-            </div>
-
-            <nav class="mt-6">
-                <div class="px-4 py-2 text-xs text-gray-400 uppercase">Main</div>
-
-                <a href="/board" class="flex items-center px-6 py-3 text-gray-300 hover:bg-[#FF6F3C]/10 hover:text-white transition-colors">
-                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
-                    </svg>
-                    Dashboard
-                </a>
-
-                <div class="px-4 py-2 mt-6 text-xs text-gray-400 uppercase">Income</div>
-                <a href="/income" class="flex items-center px-6 py-3 text-white bg-[#FF6F3C]/20 border-l-4 border-[#FF6F3C]">
-                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                    Income
-                </a>
-
-                <div class="px-4 py-2 mt-6 text-xs text-gray-400 uppercase">Outcome</div>
-                <a href="/expenses" class="flex items-center px-6 py-3 text-gray-300 hover:bg-[#FF6F3C]/10 hover:text-white transition-colors">
-                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                    </svg>
-                    Expenses
-                </a>
-
-                <div class="px-4 py-2 mt-6 text-xs text-gray-400 uppercase">Settings</div>
-                <a href="/settings" class="flex items-center px-6 py-3 text-gray-300 hover:bg-[#FF6F3C]/10 hover:text-white transition-colors">
-                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                    </svg>
-                    Settings
-                </a>
-            </nav>
-        </aside>
+        @include('components.sidebar', ['active' => 'income'])
 
         <!-- Main Content -->
         <div class="flex-1 overflow-auto">
             <!-- Top Navigation -->
             <header class="bg-white shadow-sm">
-                <div class="flex justify-between items-center px-6 py-4">
-                    <h1 class="text-2xl font-bold text-gray-900">Profile Settings</h1>
+                <div class="flex justify-end items-center px-6 py-4">
+
                     <div class="flex items-center space-x-4">
                         <button class="p-1 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -112,22 +66,22 @@
                     <div class="lg:col-span-2 space-y-8">
                         <!-- Income Summary Card -->
                         <div class="bg-white rounded-lg shadow-sm p-6">
-                   <div class="flex justify-between items-center mb-6">
+                            <div class="flex justify-between items-center mb-6">
                                 <h2 class="text-lg font-bold text-gray-900 flex items-center">
                                     <svg class="w-5 h-5 mr-2 text-[#FF6F3C]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                     </svg>
                                     Income Summary
                                 </h2>
-                                <!-- Add Salary Button -->
-                                <div class="bg-[#FF6F3C] rounded-lg shadow-sm p-4 text-white hover:bg-[#ff5a24] transition-colors cursor-pointer" onclick="openModal('salaryModal')">
-                                    <div class="flex items-center justify-center space-x-2">
-                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                                        </svg>
-                                        <span class="font-medium">Add New Salary</span>
-                                    </div>
-                                </div>
+                                <!-- Updated Add Income Button -->
+                                <button
+                                    class="inline-flex items-center px-3 py-1.5 text-sm font-medium text-white bg-[#FF6F3C] rounded-md hover:bg-[#ff5a24] transition-colors duration-200 shadow-sm"
+                                    onclick="openModal('salaryModal')">
+                                    <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                                    </svg>
+                                    Add Income
+                                </button>
                             </div>
 
                             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -269,74 +223,38 @@
 
                         <!-- Wishlist Items -->
                         <div class="space-y-4">
-                            <!-- Wishlist Item 1 -->
+                            @forelse($wishes as $wish)
+                            <!-- Wishlist Item -->
                             <div class="bg-white rounded-lg shadow-sm overflow-hidden wishlist-card">
                                 <div class="flex h-24">
-                                    <img src="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-14-pro-finish-select-202209-6-7inch-deeppurple?wid=5120&hei=2880&fmt=p-jpg&qlt=80&.v=1663703841896" alt="iPhone 14 Pro" class="w-24 h-full object-cover">
+                                    <img src="{{ $wish->imageURL }}" alt="{{ $wish->title }}" class="w-24 h-full object-cover">
                                     <div class="p-4 flex-1 flex flex-col justify-between">
                                         <div>
                                             <div class="flex justify-between items-start">
-                                                <h3 class="font-medium text-gray-900">iPhone 14 Pro</h3>
-                                                <span class="text-sm font-bold text-[#FF6F3C]">$999</span>
+                                                <h3 class="font-medium text-gray-900">{{ $wish->title }}</h3>
+                                                <span class="text-sm font-bold text-[#FF6F3C]">${{ number_format($wish->price, 2) }}</span>
                                             </div>
-                                            <p class="text-sm text-gray-500 mt-1">Electronics</p>
+                                            <p class="text-sm text-gray-500 mt-1">{{ $wish->category->category }}</p>
                                         </div>
                                         <div class="flex justify-end">
-                                            <button class="text-xs text-gray-500 hover:text-[#FF6F3C]">
-                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                                </svg>
-                                            </button>
+                                            <form action="{{ route('wishes.delete', $wish->id) }}" method="POST">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="text-xs text-gray-500 hover:text-[#FF6F3C]">
+                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                                    </svg>
+                                                </button>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
-                            <!-- Wishlist Item 2 -->
-                            <div class="bg-white rounded-lg shadow-sm overflow-hidden wishlist-card">
-                                <div class="flex h-24">
-                                    <img src="https://m.media-amazon.com/images/I/61bLefD79-L._AC_SL1500_.jpg" alt="Sony WH-1000XM4" class="w-24 h-full object-cover">
-                                    <div class="p-4 flex-1 flex flex-col justify-between">
-                                        <div>
-                                            <div class="flex justify-between items-start">
-                                                <h3 class="font-medium text-gray-900">Sony WH-1000XM4</h3>
-                                                <span class="text-sm font-bold text-[#FF6F3C]">$349</span>
-                                            </div>
-                                            <p class="text-sm text-gray-500 mt-1">Electronics</p>
-                                        </div>
-                                        <div class="flex justify-end">
-                                            <button class="text-xs text-gray-500 hover:text-[#FF6F3C]">
-                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                                </svg>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
+                            @empty
+                            <div class="bg-white rounded-lg shadow-sm p-6 text-center text-gray-500">
+                                No wishlist items yet. Add your first item using the button below.
                             </div>
-
-                            <!-- Wishlist Item 3 -->
-                            <div class="bg-white rounded-lg shadow-sm overflow-hidden wishlist-card">
-                                <div class="flex h-24">
-                                    <img src="https://m.media-amazon.com/images/I/71NBQ2a52CL._AC_SL1500_.jpg" alt="Nintendo Switch OLED" class="w-24 h-full object-cover">
-                                    <div class="p-4 flex-1 flex flex-col justify-between">
-                                        <div>
-                                            <div class="flex justify-between items-start">
-                                                <h3 class="font-medium text-gray-900">Nintendo Switch OLED</h3>
-                                                <span class="text-sm font-bold text-[#FF6F3C]">$349</span>
-                                            </div>
-                                            <p class="text-sm text-gray-500 mt-1">Gaming</p>
-                                        </div>
-                                        <div class="flex justify-end">
-                                            <button class="text-xs text-gray-500 hover:text-[#FF6F3C]">
-                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                                </svg>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            @endforelse
 
                             <!-- Add New Wishlist Item Button -->
                             <div class="bg-white rounded-lg border-2 border-dashed border-gray-300 flex items-center justify-center h-16 cursor-pointer hover:border-[#FF6F3C] transition-colors" onclick="openModal('wishlistModal')">
@@ -361,7 +279,7 @@
         <!-- Salary Form Modal Content -->
         <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
             <div class="mt-3">
-                <h3 class="text-lg font-medium text-gray-900 mb-4">Add New Salary</h3>
+                <h3 class="text-lg font-medium text-gray-900 mb-4">Add New Income</h3>
                 <form class="space-y-4">
                     <!-- Type -->
                     <div class="text-left">
@@ -400,7 +318,7 @@
                         </button>
                         <button type="submit"
                             class="px-4 py-2 bg-[#FF6F3C] text-white text-sm font-medium rounded-md hover:bg-[#ff5a24] focus:outline-none focus:ring-2 focus:ring-[#FF6F3C]">
-                            Add Salary
+                            Add Income
                         </button>
                     </div>
                 </form>
@@ -455,29 +373,27 @@
         </div>
     </div>
 
-    <!-- Add Wishlist Item Button and Modal -->
+    <!-- Add Wishlist Item Modal -->
     <div class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden z-50" id="wishlistModal">
         <!-- Wishlist Form Modal Content -->
         <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
             <div class="mt-3">
                 <h3 class="text-lg font-medium text-gray-900 mb-4">Add New Wishlist Item</h3>
-                <form class="space-y-4">
+                <form class="space-y-4" action="{{ route('wishes.add') }}" method="POST">
+                    @csrf
                     <!-- Item Name -->
                     <div class="text-left">
                         <label for="item-name" class="block text-sm font-medium text-gray-700">Item Name</label>
-                        <input type="text" id="item-name" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-[#FF6F3C] focus:border-[#FF6F3C] sm:text-sm" placeholder="e.g., iPhone 14 Pro">
+                        <input type="text" id="item-name" name="item-name" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-[#FF6F3C] focus:border-[#FF6F3C] sm:text-sm" placeholder="e.g., iPhone 14 Pro" required>
                     </div>
 
                     <!-- Category -->
                     <div class="text-left">
                         <label for="item-category" class="block text-sm font-medium text-gray-700">Category</label>
-                        <select id="item-category" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-[#FF6F3C] focus:border-[#FF6F3C] sm:text-sm">
-                            <option value="electronics">Electronics</option>
-                            <option value="clothing">Clothing</option>
-                            <option value="home">Home</option>
-                            <option value="gaming">Gaming</option>
-                            <option value="travel">Travel</option>
-                            <option value="other">Other</option>
+                        <select id="item-category" name="item-category" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-[#FF6F3C] focus:border-[#FF6F3C] sm:text-sm" required>
+                            @foreach($categories as $category)
+                            <option value="{{ $category->id }}">{{ $category->category }}</option>
+                            @endforeach
                         </select>
                     </div>
 
@@ -488,14 +404,14 @@
                             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                 <span class="text-gray-500 sm:text-sm">$</span>
                             </div>
-                            <input type="number" id="item-price" class="focus:ring-[#FF6F3C] focus:border-[#FF6F3C] block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md py-2" placeholder="0.00" step="0.01">
+                            <input type="number" id="item-price" name="item-price" class="focus:ring-[#FF6F3C] focus:border-[#FF6F3C] block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md py-2" placeholder="0.00" step="0.01" required>
                         </div>
                     </div>
 
                     <!-- Image URL -->
                     <div class="text-left">
                         <label for="item-image" class="block text-sm font-medium text-gray-700">Image URL</label>
-                        <input type="url" id="item-image" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-[#FF6F3C] focus:border-[#FF6F3C] sm:text-sm" placeholder="https://example.com/image.jpg">
+                        <input type="url" id="item-image" name="item-image" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-[#FF6F3C] focus:border-[#FF6F3C] sm:text-sm" placeholder="https://example.com/image.jpg" required>
                     </div>
 
                     <!-- Buttons -->

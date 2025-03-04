@@ -1,4 +1,4 @@
-USE MoneyMind
+select * from users
 
 -- @block 
-select * from categories
+delete from users
