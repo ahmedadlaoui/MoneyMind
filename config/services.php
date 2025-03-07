@@ -23,6 +23,9 @@ return [
         'secret' => env('AWS_SECRET_ACCESS_KEY'),
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
+    'gemini' => [
+    'key' => env('AIzaSyC0h1XrBNxa37CyCh5OxhnB8J0ZDCS5Rks'),
+],
 
     'resend' => [
         'key' => env('RESEND_KEY'),

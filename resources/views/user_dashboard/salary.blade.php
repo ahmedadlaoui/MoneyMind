@@ -33,30 +33,16 @@
 </head>
 
 <body>
+
+
+
     <div class="flex h-screen bg-gray-50">
         @include('components.sidebar', ['active' => 'income'])
 
         <!-- Main Content -->
         <div class="flex-1 overflow-auto">
             <!-- Top Navigation -->
-            <header class="bg-white shadow-sm">
-                <div class="flex justify-end items-center px-6 py-4">
-
-                    <div class="flex items-center space-x-4">
-                        <button class="p-1 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-                            </svg>
-                        </button>
-                        <div class="relative">
-                            <button class="flex items-center space-x-2 focus:outline-none">
-                                <img class="h-8 w-8 rounded-full object-cover" src="{{ Auth::user()->profile_photo_url ?? 'https://ui-avatars.com/api/?name='.urlencode(Auth::user()->name).'&color=7C3AED&background=EDE9FE' }}" alt="User avatar">
-                                <span class="text-gray-700">{{ Auth::user()->name }}</span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </header>
+            @include('components.header')
 
             <!-- Dashboard Content -->
             <main class="p-6">
@@ -87,24 +73,66 @@
                             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                                 <div class="p-4 bg-gray-50 rounded-lg border border-gray-200">
                                     <p class="text-sm text-gray-500 mb-1">Monthly Income</p>
-                                    <h3 class="text-2xl font-bold text-gray-900">$4,250.00</h3>
-                                    <div class="flex items-center mt-1">
-                                        <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
-                                        </svg>
-                                        <span class="text-sm text-green-600 ml-1">+5.2% from last month</span>
+                                    <h3 class="text-2xl font-bold text-gray-900">{{ Auth::user()->monthly_income }} MAD</h3>
+
+                                </div>
+
+                                <div class="p-4 bg-gray-50 rounded-lg border border-gray-200">
+                                    <p class="text-sm text-gray-500 mb-1">Total Monthly Outcome</p>
+                                    @php
+                                    // Calculate total monthly savings contributions
+                                    $totalMonthlyContributions = $goals->sum(function($goal) {
+                                    return ($goal->contribution/100) * Auth::user()->monthly_income;
+                                    });
+
+                                    // Get all recurring expenses (not just current month)
+                                    $recurringExpenses = $expenses->where('type', 'recurrent')->sum('price');
+
+                                    // Calculate total monthly outcome (recurring expenses + savings)
+                                    $totalMonthlyOutcome = $totalMonthlyContributions + $recurringExpenses;
+
+                                    // Calculate percentage of income
+                                    $percentageOfIncome = Auth::user()->monthly_income > 0
+                                    ? ($totalMonthlyOutcome / Auth::user()->monthly_income) * 100
+                                    : 0;
+                                    @endphp
+                                    <h3 class="text-2xl font-bold {{ $percentageOfIncome > 100 ? 'text-red-600' : 'text-gray-900' }}">
+                                        {{ number_format($totalMonthlyOutcome, 2) }} MAD
+                                    </h3>
+                                    <div class="flex items-center justify-between mt-1">
+                                        <p class="text-xs text-gray-500">
+                                            <span class="inline-flex items-center">
+                                                <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2z" />
+                                                </svg>
+                                                Savings: {{ number_format($totalMonthlyContributions, 2) }} MAD
+                                            </span>
+                                        </p>
+                                        <p class="text-xs text-gray-500">
+                                            <span class="inline-flex items-center">
+                                                <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                                                </svg>
+                                                Recurring: {{ number_format($recurringExpenses, 2) }} MAD
+                                            </span>
+                                        </p>
                                     </div>
+                                    <div class="mt-2 w-full bg-gray-200 rounded-full h-1.5">
+                                        <div class="bg-[#FF6F3C] h-1.5 rounded-full" style="width: {{ min($percentageOfIncome, 100) }}%"></div>
+                                    </div>
+                                    <p class="text-xs text-gray-500 mt-1">
+                                        {{ number_format($percentageOfIncome, 1) }}% of monthly income
+                                    </p>
                                 </div>
 
                                 <div class="p-4 bg-gray-50 rounded-lg border border-gray-200">
-                                    <p class="text-sm text-gray-500 mb-1">Year-to-Date Income</p>
-                                    <h3 class="text-2xl font-bold text-gray-900">$21,250.00</h3>
+                                    <p class="text-sm text-gray-500 mb-1">Wallet</p>
+                                    <h3 class="text-2xl font-bold ">
+                                        {{ Auth::user()->saving - $totalExpenses }} MAD
+                                    </h3>
+
                                 </div>
 
-                                <div class="p-4 bg-gray-50 rounded-lg border border-gray-200">
-                                    <p class="text-sm text-gray-500 mb-1">Average Monthly</p>
-                                    <h3 class="text-2xl font-bold text-gray-900">$4,150.00</h3>
-                                </div>
                             </div>
                         </div>
 
@@ -121,78 +149,89 @@
                             </div>
 
                             <div class="space-y-4">
-                                <!-- Savings Goal 1 -->
-                                <div class="bg-gray-50 rounded-lg border border-gray-200 p-4">
-                                    <div class="flex justify-between items-start mb-2">
-                                        <div>
-                                            <h3 class="font-medium text-gray-900">Emergency Fund</h3>
-                                            <p class="text-sm text-gray-500">3-6 months of expenses</p>
+                                @foreach($goals as $goal)
+                                @php
+                                $monthlyContributionAmount = ($goal->contribution/100) * Auth::user()->monthly_income;
+                                $monthsPassed = \Carbon\Carbon::parse($goal->created_at)->diffInMonths(now()) + 1;
+                                $amountSaved = $monthsPassed * $monthlyContributionAmount;
+                                $amountSaved = min($amountSaved, $goal->targetprice);
+                                $progressPercentage = ($amountSaved / $goal->targetprice) * 100;
+                                $amountToGo = $goal->targetprice - $amountSaved;
+                                $isCompleted = $progressPercentage >= 100;
+                                @endphp
+
+                                <div class="bg-white rounded-lg border {{ $isCompleted ? 'border-green-200' : 'border-gray-200' }} p-4 shadow-sm hover:shadow-md transition-all duration-300">
+                                    <div class="flex justify-between items-start mb-3">
+                                        <div class="flex items-start space-x-3">
+                                            <div class="flex-shrink-0">
+                                                @if($isCompleted)
+                                                <span class="flex h-8 w-8 items-center justify-center rounded-full bg-green-100">
+                                                    <svg class="h-5 w-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                                    </svg>
+                                                </span>
+                                                @else
+                                                <span class="flex h-8 w-8 items-center justify-center rounded-full bg-[#FFF0EB]">
+                                                    <svg class="h-5 w-5 text-[#FF6F3C]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                    </svg>
+                                                </span>
+                                                @endif
+                                            </div>
+                                            <div>
+                                                <h3 class="font-semibold text-gray-900 flex items-center">
+                                                    {{$goal->name}}
+                                                    @if($isCompleted)
+                                                    <span class="ml-2 px-2 py-0.5 text-xs font-medium bg-green-100 text-green-800 rounded-full">Completed</span>
+                                                    @endif
+                                                </h3>
+                                                <p class="text-sm text-gray-500 mt-0.5">{{$goal->description}}</p>
+                                            </div>
                                         </div>
-                                        <span class="text-sm font-bold text-[#FF6F3C]">$10,000</span>
+                                        <span class="text-sm font-bold {{ $isCompleted ? 'text-green-600' : 'text-[#FF6F3C]' }}">
+                                            MAD {{number_format($goal->targetprice, 1)}}
+                                        </span>
                                     </div>
-                                    <div class="mt-2">
-                                        <div class="flex justify-between items-center mb-1">
+
+                                    <div class="mt-4">
+                                        <div class="flex justify-between items-center mb-1.5">
                                             <span class="text-xs font-medium text-gray-500">Progress</span>
-                                            <span class="text-xs font-medium text-[#FF6F3C]">65%</span>
+                                            <span class="text-xs font-medium {{ $isCompleted ? 'text-green-600' : 'text-[#FF6F3C]' }}">
+                                                {{number_format($progressPercentage, 1)}}%
+                                            </span>
                                         </div>
-                                        <div class="w-full bg-gray-200 rounded-full h-2">
-                                            <div class="bg-[#FF6F3C] h-2 rounded-full" style="width: 65%"></div>
+                                        <div class="w-full bg-gray-100 rounded-full h-2.5 overflow-hidden">
+                                            <div class="{{ $isCompleted ? 'bg-green-500' : 'bg-[#FF6F3C]' }} h-full rounded-full transition-all duration-700 ease-out"
+                                                style="width: {{min($progressPercentage, 100)}}%"></div>
                                         </div>
-                                        <div class="flex justify-between mt-1">
-                                            <p class="text-xs text-gray-500">$6,500 saved</p>
-                                            <p class="text-xs text-gray-500">$3,500 to go</p>
+
+                                        <div class="mt-3 grid grid-cols-2 gap-4">
+                                            <div class="bg-gray-50 rounded-lg p-2">
+                                                <p class="text-xs text-gray-500">Monthly Contribution</p>
+                                                <p class="text-sm font-medium text-gray-900 mt-0.5">
+                                                    MAD {{number_format($monthlyContributionAmount, 1)}}
+                                                    <span class="text-xs text-gray-500">({{$goal->contribution}}%)</span>
+                                                </p>
+                                            </div>
+                                            <div class="bg-gray-50 rounded-lg p-2">
+                                                <p class="text-xs text-gray-500">Remaining</p>
+                                                <p class="text-sm font-medium text-gray-900 mt-0.5">
+                                                    MAD {{number_format($amountToGo, 1)}}
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                        <div class="mt-3 pt-3 border-t border-gray-100">
+                                            <p class="text-xs text-gray-400 flex items-center">
+                                                <svg class="w-4 h-4 mr-1.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                                </svg>
+                                                Saved: MAD {{number_format($amountSaved, 1)}} over {{(int)$monthsPassed}} month(s)
+                                            </p>
                                         </div>
                                     </div>
                                 </div>
-
-                                <!-- Savings Goal 2 -->
-                                <div class="bg-gray-50 rounded-lg border border-gray-200 p-4">
-                                    <div class="flex justify-between items-start mb-2">
-                                        <div>
-                                            <h3 class="font-medium text-gray-900">Vacation Fund</h3>
-                                            <p class="text-sm text-gray-500">Summer trip to Europe</p>
-                                        </div>
-                                        <span class="text-sm font-bold text-[#FF6F3C]">$3,000</span>
-                                    </div>
-                                    <div class="mt-2">
-                                        <div class="flex justify-between items-center mb-1">
-                                            <span class="text-xs font-medium text-gray-500">Progress</span>
-                                            <span class="text-xs font-medium text-[#FF6F3C]">40%</span>
-                                        </div>
-                                        <div class="w-full bg-gray-200 rounded-full h-2">
-                                            <div class="bg-[#FF6F3C] h-2 rounded-full" style="width: 40%"></div>
-                                        </div>
-                                        <div class="flex justify-between mt-1">
-                                            <p class="text-xs text-gray-500">$1,200 saved</p>
-                                            <p class="text-xs text-gray-500">$1,800 to go</p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Savings Goal 3 -->
-                                <div class="bg-gray-50 rounded-lg border border-gray-200 p-4">
-                                    <div class="flex justify-between items-start mb-2">
-                                        <div>
-                                            <h3 class="font-medium text-gray-900">New Car Down Payment</h3>
-                                            <p class="text-sm text-gray-500">For a hybrid vehicle</p>
-                                        </div>
-                                        <span class="text-sm font-bold text-[#FF6F3C]">$5,000</span>
-                                    </div>
-                                    <div class="mt-2">
-                                        <div class="flex justify-between items-center mb-1">
-                                            <span class="text-xs font-medium text-gray-500">Progress</span>
-                                            <span class="text-xs font-medium text-[#FF6F3C]">15%</span>
-                                        </div>
-                                        <div class="w-full bg-gray-200 rounded-full h-2">
-                                            <div class="bg-[#FF6F3C] h-2 rounded-full" style="width: 15%"></div>
-                                        </div>
-                                        <div class="flex justify-between mt-1">
-                                            <p class="text-xs text-gray-500">$750 saved</p>
-                                            <p class="text-xs text-gray-500">$4,250 to go</p>
-                                        </div>
-                                    </div>
-                                </div>
-
+                                @endforeach
                                 <!-- Add New Savings Goal Button -->
                                 <div class="bg-white rounded-lg border-2 border-dashed border-gray-300 flex items-center justify-center h-16 cursor-pointer hover:border-[#FF6F3C] transition-colors" onclick="openModal('savingsGoalModal')">
                                     <div class="text-center">
@@ -232,7 +271,7 @@
                                         <div>
                                             <div class="flex justify-between items-start">
                                                 <h3 class="font-medium text-gray-900">{{ $wish->title }}</h3>
-                                                <span class="text-sm font-bold text-[#FF6F3C]">${{ number_format($wish->price, 2) }}</span>
+                                                <span class="text-sm font-bold text-[#FF6F3C]">{{ number_format($wish->price) }} MAD</span>
                                             </div>
                                             <p class="text-sm text-gray-500 mt-1">{{ $wish->category->category }}</p>
                                         </div>
@@ -280,45 +319,51 @@
         <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
             <div class="mt-3">
                 <h3 class="text-lg font-medium text-gray-900 mb-4">Add New Income</h3>
-                <form class="space-y-4">
-                    <!-- Type -->
-                    <div class="text-left">
-                        <label for="salary-type" class="block text-sm font-medium text-gray-700">Type</label>
-                        <select id="salary-type" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-[#FF6F3C] focus:border-[#FF6F3C] sm:text-sm">
-                            <option value="salary">Regular Salary</option>
-                            <option value="bonus">Bonus</option>
-                            <option value="overtime">Overtime</option>
-                            <option value="other">Other</option>
-                        </select>
-                    </div>
-
-                    <!-- Amount -->
-                    <div class="text-left">
-                        <label for="salary-amount" class="block text-sm font-medium text-gray-700">Amount</label>
-                        <div class="mt-1 relative rounded-md shadow-sm">
-                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                <span class="text-gray-500 sm:text-sm">$</span>
+                <form action="{{ route('salary.update') }}" method="POST">
+                    @csrf
+                    <div class="space-y-4">
+                        <!-- Amount Field -->
+                        <div class="text-left">
+                            <label for="salary_amount" class="block text-sm font-medium text-gray-700">Monthly Income</label>
+                            <div class="mt-1 relative rounded-md shadow-sm">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <span class="text-gray-500 sm:text-sm">MAD</span>
+                                </div>
+                                <input type="number"
+                                    name="salary_amount"
+                                    id="salary_amount"
+                                    value="{{ Auth::user()->monthly_income }}"
+                                    class="focus:ring-[#FF6F3C] focus:border-[#FF6F3C] block w-full pl-12 pr-12 sm:text-sm border-gray-300 rounded-md py-2"
+                                    placeholder="0.00"
+                                    step="0.01"
+                                    required>
                             </div>
-                            <input type="number" id="salary-amount" class="focus:ring-[#FF6F3C] focus:border-[#FF6F3C] block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md py-2" placeholder="0.00" step="0.01">
+                        </div>
+
+                        <!-- Date Field -->
+                        <div class="text-left">
+                            <label for="salary_date" class="block text-sm font-medium text-gray-700">Salary Date</label>
+                            <div class="mt-1">
+                                <input type="date"
+                                    name="salary_date"
+                                    id="salary_date"
+                                    value="{{ Auth::user()->salary_date }}"
+                                    class="focus:ring-[#FF6F3C] focus:border-[#FF6F3C] block w-full sm:text-sm border-gray-300 rounded-md py-2"
+                                    required>
+                            </div>
+                            <p class="mt-1 text-sm text-gray-500">Select the date you receive your salary</p>
                         </div>
                     </div>
 
-                    <!-- Date -->
-                    <div class="text-left">
-                        <label for="salary-date" class="block text-sm font-medium text-gray-700">Date</label>
-                        <input type="date" id="salary-date" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-[#FF6F3C] focus:border-[#FF6F3C] sm:text-sm">
-                    </div>
-
-                    <!-- Buttons -->
                     <div class="flex space-x-2 justify-end mt-5">
                         <button type="button"
-                            class="px-4 py-2 bg-gray-200 text-gray-800 text-sm font-medium rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400"
+                            class="px-4 py-2 bg-gray-200 text-gray-800 text-sm font-medium rounded-md hover:bg-gray-300"
                             onclick="closeModal('salaryModal')">
                             Cancel
                         </button>
                         <button type="submit"
-                            class="px-4 py-2 bg-[#FF6F3C] text-white text-sm font-medium rounded-md hover:bg-[#ff5a24] focus:outline-none focus:ring-2 focus:ring-[#FF6F3C]">
-                            Add Income
+                            class="px-4 py-2 bg-[#FF6F3C] text-white text-sm font-medium rounded-md hover:bg-[#ff5a24]">
+                            {{ Auth::user()->monthly_income ? 'Update Income' : 'Add Income' }}
                         </button>
                     </div>
                 </form>
@@ -332,11 +377,17 @@
         <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
             <div class="mt-3">
                 <h3 class="text-lg font-medium text-gray-900 mb-4">Add New Savings Goal</h3>
-                <form class="space-y-4">
+                <form class="space-y-4" action="{{ route('salary.setgoal') }}" method="POST">
+                    @csrf
                     <!-- Goal Name -->
                     <div class="text-left">
                         <label for="goal-name" class="block text-sm font-medium text-gray-700">Goal Name</label>
-                        <input type="text" id="goal-name" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-[#FF6F3C] focus:border-[#FF6F3C] sm:text-sm" placeholder="e.g., Emergency Fund">
+                        <input type="text"
+                            id="goal-name"
+                            name="goal_name"
+                            class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-[#FF6F3C] focus:border-[#FF6F3C] sm:text-sm"
+                            placeholder="e.g., Emergency Fund"
+                            required>
                     </div>
 
                     <!-- Target Amount -->
@@ -344,19 +395,48 @@
                         <label for="goal-target" class="block text-sm font-medium text-gray-700">Target Amount</label>
                         <div class="mt-1 relative rounded-md shadow-sm">
                             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                <span class="text-gray-500 sm:text-sm">$</span>
+                                <span class="text-gray-500 sm:text-sm">MAD</span>
                             </div>
-                            <input type="number" id="goal-target" class="focus:ring-[#FF6F3C] focus:border-[#FF6F3C] block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md py-2" placeholder="0.00" step="0.01">
+                            <input type="number"
+                                id="goal-target"
+                                name="target_price"
+                                class="focus:ring-[#FF6F3C] focus:border-[#FF6F3C] block w-full pl-12 pr-12 sm:text-sm border-gray-300 rounded-md py-2"
+                                placeholder="0.00"
+                                min="1"
+                                required>
+                        </div>
+                    </div>
+
+                    <!-- Monthly Contribution -->
+                    <div class="text-left">
+                        <label for="monthly-contribution" class="block text-sm font-medium text-gray-700">Monthly Contribution</label>
+                        <div class="mt-1 relative rounded-md shadow-sm">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <span class="text-gray-500 sm:text-sm">%</span>
+                            </div>
+                            <input type="number"
+                                id="monthly-contribution"
+                                name="monthly_contribution"
+                                class="focus:ring-[#FF6F3C] focus:border-[#FF6F3C] block w-full pl-12 pr-12 sm:text-sm border-gray-300 rounded-md py-2"
+                                placeholder="0.00"
+                                min="1"
+                                required>
                         </div>
                     </div>
 
                     <!-- Description -->
                     <div class="text-left">
                         <label for="goal-description" class="block text-sm font-medium text-gray-700">Brief Description</label>
-                        <textarea id="goal-description" rows="3" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-[#FF6F3C] focus:border-[#FF6F3C] sm:text-sm" placeholder="Describe your savings goal..."></textarea>
+                        <textarea
+                            id="goal-description"
+                            name="description"
+                            rows="3"
+                            class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-[#FF6F3C] focus:border-[#FF6F3C] sm:text-sm"
+                            placeholder="Describe your savings goal..."
+                            required></textarea>
                     </div>
 
-                    <!-- Buttons -->
+                    <!-- Submit Button -->
                     <div class="flex space-x-2 justify-end mt-5">
                         <button type="button"
                             class="px-4 py-2 bg-gray-200 text-gray-800 text-sm font-medium rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400"
@@ -431,9 +511,8 @@
         </div>
     </div>
 
-    <!-- Add this script at the end of your body tag -->
+
     <script>
-        // Functions to handle modal operations
         function openModal(modalId) {
             document.getElementById(modalId).classList.remove('hidden');
         }
@@ -442,7 +521,7 @@
             document.getElementById(modalId).classList.add('hidden');
         }
 
-        // Close modals when clicking outside
+
         document.addEventListener('DOMContentLoaded', function() {
             ['salaryModal', 'savingsGoalModal', 'wishlistModal'].forEach(modalId => {
                 document.getElementById(modalId).addEventListener('click', function(e) {
@@ -452,9 +531,9 @@
                 });
             });
 
-            // Set today's date as default for salary form
+
             const today = new Date().toISOString().split('T')[0];
-            document.getElementById('salary-date').value = today;
+            document.getElementById('salary_date').value = today;
         });
     </script>
 </body>

@@ -1,4 +1,4 @@
-select * from users
+describe goals
 
 -- @block 
-delete from users
+select * from goals

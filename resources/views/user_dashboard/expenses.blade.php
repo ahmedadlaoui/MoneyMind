@@ -26,31 +26,28 @@
 </head>
 
 <body>
+
     <x-app-layout>
         <div class="flex h-screen bg-gray-100">
             @include('components.sidebar', ['active' => 'expenses'])
 
-        <!-- Main Content -->
-        <div class="flex-1 overflow-auto">
-            <!-- Top Navigation -->
-            <header class="bg-white shadow-sm">
-                <div class="flex justify-end items-center px-6 py-4">
-
-                    <div class="flex items-center space-x-4">
-                        <button class="p-1 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-                            </svg>
-                        </button>
-                        <div class="relative">
-                            <button class="flex items-center space-x-2 focus:outline-none">
-                                <img class="h-8 w-8 rounded-full object-cover" src="{{ Auth::user()->profile_photo_url ?? 'https://ui-avatars.com/api/?name='.urlencode(Auth::user()->name).'&color=7C3AED&background=EDE9FE' }}" alt="User avatar">
-                                <span class="text-gray-700">{{ Auth::user()->name }}</span>
-                            </button>
-                        </div>
+            <!-- Main Content -->
+            <div class="flex-1 overflow-auto">
+                <!-- Top Navigation -->
+                @include('components.header')
+                <div class="p-6">
+                    @if(session('error'))
+                    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+                        <span class="block sm:inline">{{ session('error') }}</span>
                     </div>
+                    @endif
+
+                    @if(session('success'))
+                    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
+                        <span class="block sm:inline">{{ session('success') }}</span>
+                    </div>
+                    @endif
                 </div>
-            </header>
                 <div class="p-8">
                     <!-- Header with Add Button -->
                     <div class="flex justify-between items-center mb-8">
@@ -96,11 +93,7 @@
                                 </div>
                                 <div class="space-y-2">
                                     <p class="text-gray-600">
-                                        Your monthly recurring expenses of <span class="text-[#FF6F3C] font-medium">${{ number_format($recurringExpenses, 2) }}</span> represent <span class="text-[#FF6F3C] font-medium">{{ number_format(($recurringExpenses / ($totalExpenses == 0 ? 1 : $totalExpenses)) * 100, 1) }}%
-                                        </span> of your total spending.
-                                    </p>
-                                    <p class="text-gray-600">
-                                        Consider reviewing your subscriptions and setting aside <span class="text-[#FF6F3C] font-medium">${{ number_format($totalExpenses * 0.2, 2) }}</span> (20%) monthly for emergency funds and future goals.
+                                        <?php echo(str_replace("**", "", $suggestions)) ?>
                                     </p>
                                 </div>
                             </div>
@@ -189,11 +182,15 @@
                                                 <p class="text-sm font-medium text-gray-900 whitespace-nowrap min-w-[80px] text-right">${{ number_format($expense->price, 2) }}</p>
 
                                                 <!-- Delete Button -->
-                                                <button class="p-1 text-gray-400 hover:text-red-500 transition-colors duration-200">
-                                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                                    </svg>
-                                                </button>
+                                                <form action="{{ route('expenses.destroy', $expense->id) }}" method="POST" class="inline">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="p-1 text-gray-400 hover:text-red-500 transition-colors duration-200" onclick="return confirm('Are you sure you want to delete this expense?')">
+                                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                                        </svg>
+                                                    </button>
+                                                </form>
                                             </div>
                                         </div>
                                     </div>
@@ -248,14 +245,9 @@
                         <!-- Amount -->
                         <div>
                             <label for="amount" class="block text-sm font-medium text-gray-700">Amount</label>
-                            <div class="mt-1 relative rounded-lg shadow-sm">
-                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                    <span class="text-gray-500 sm:text-sm">$</span>
-                                </div>
-                                <input type="number" id="amount" name="depamount"
-                                    class="block w-full pl-7 pr-12 rounded-lg border-gray-300 focus:border-[#FF6F3C] focus:ring-[#FF6F3C]"
-                                    placeholder="0.00" step="0.01">
-                            </div>
+                            <input type="number" id="amount" name="depamount"
+                                class="block w-full pl-7 pr-12 rounded-lg border-gray-300 focus:border-[#FF6F3C] focus:ring-[#FF6F3C]"
+                                placeholder="0.00 MAD" step="1">
                         </div>
 
                         <!-- Category -->
@@ -298,112 +290,75 @@
     </div>
 
     <script>
-        // Wait for the DOM to be fully loaded
         document.addEventListener('DOMContentLoaded', function() {
-            try {
-                // Get the chart contexts
-                const typeChart = document.getElementById('expenseTypeChart');
-                const distributionChart = document.getElementById('expenseDistributionChart');
-
-                if (!typeChart || !distributionChart) {
-                    console.error('Chart elements not found');
-                    return;
-                }
-
-                // Parse the PHP variables safely
-                const totalExpenses = parseFloat('{{ $totalExpenses }}') || 0;
-                const recurringExpenses = parseFloat('{{ $recurringExpenses }}') || 0;
-                const oneTimeExpenses = parseFloat('{{ $oneTimeExpenses }}') || 0;
-
-                // Create Expense Type Chart
-                new Chart(typeChart, {
-                    type: 'doughnut',
-                    data: {
-                        labels: ['Recurring Expenses', 'One-time Expenses'],
-                        datasets: [{
-                            data: [recurringExpenses, oneTimeExpenses],
-                            backgroundColor: ['#FF6F3C', '#4B5563'],
-                            borderWidth: 0
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: {
-                                position: 'bottom',
-                                labels: {
-                                    usePointStyle: true,
-                                    padding: 20,
-                                    font: {
-                                        size: 12
-                                    }
-                                }
-                            },
-                            tooltip: {
-                                callbacks: {
-                                    label: function(context) {
-                                        const value = context.raw;
-                                        return ` $${value.toFixed(2)}`;
-                                    }
-                                }
-                            }
-                        },
-                        cutout: '65%'
-                    }
-                });
-
-                // Create Distribution Chart
-                new Chart(distributionChart, {
-                    type: 'bar',
-                    data: {
-                        labels: ['Total', 'Recurring', 'One-time'],
-                        datasets: [{
-                            label: 'Amount ($)',
-                            data: [totalExpenses, recurringExpenses, oneTimeExpenses],
-                            backgroundColor: ['#FF6F3C', '#FF8B67', '#FFA88F'],
-                            borderRadius: 6
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: {
-                                display: false
-                            },
-                            tooltip: {
-                                callbacks: {
-                                    label: function(context) {
-                                        const value = context.raw;
-                                        return ` $${value.toFixed(2)}`;
-                                    }
-                                }
-                            }
-                        },
-                        scales: {
-                            y: {
-                                beginAtZero: true,
-                                grid: {
-                                    display: false
-                                },
-                                ticks: {
-                                    callback: function(value) {
-                                        return '$' + value.toFixed(2);
-                                    }
-                                }
-                            },
-                            x: {
-                                grid: {
-                                    display: false
-                                }
+            // Type Chart
+            const typeCtx = document.getElementById('expenseTypeChart').getContext('2d');
+            new Chart(typeCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Recurring', 'One-time'],
+                    datasets: [{
+                        data: [
+                            {{ number_format($recurringExpenses, 2, '.', '') }},
+                            {{ number_format($oneTimeExpenses, 2, '.', '') }}
+                        ],
+                        backgroundColor: ['#FF6F3C', '#4B5563'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                usePointStyle: true,
+                                padding: 20,
+                                font: { size: 12 }
                             }
                         }
+                    },
+                    cutout: '65%'
+                }
+            });
+
+            // Distribution Chart
+            const distributionCtx = document.getElementById('expenseDistributionChart').getContext('2d');
+            new Chart(distributionCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Total', 'Recurring', 'One-time'],
+                    datasets: [{
+                        label: 'Amount (MAD)',
+                        data: [
+                            {{ number_format($totalExpenses, 2, '.', '') }},
+                            {{ number_format($recurringExpenses, 2, '.', '') }},
+                            {{ number_format($oneTimeExpenses, 2, '.', '') }}
+                        ],
+                        backgroundColor: ['#FF6F3C', '#FF8B67', '#FFA88F'],
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: { display: false }
+                        },
+                        x: {
+                            grid: { display: false }
+                        }
                     }
-                });
-            } catch (error) {
-                console.error('Error initializing charts:', error);
-            }
+                }
+            });
         });
 
         // Keep your existing modal scripts

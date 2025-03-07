@@ -22,10 +22,13 @@
                 <div class="max-w-xl text-sm text-gray-600">
                     <p>Are you sure you want to delete your account? This action cannot be undone.</p>
                 </div>
-                <x-danger-button x-data="" x-on:click.prevent="$dispatch('open-modal', 'confirm-user-deletion')"
-                    class="bg-red-600 hover:bg-red-700 focus:ring-red-500">
+                <button x-data="" x-on:click.prevent="$dispatch('open-modal', 'confirm-user-deletion')"
+                    class="flex items-center px-3 py-1.5 text-sm bg-red-600 text-white rounded-md hover:bg-red-700 focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-colors duration-200">
+                    <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg>
                     {{ __('Delete Account') }}
-                </x-danger-button>
+                </button>
             </div>
         </div>
     </div>
@@ -63,13 +66,17 @@
             </div>
 
             <div class="flex justify-end space-x-3">
-                <x-secondary-button x-on:click="$dispatch('close')"
-                    class="px-4 py-2 bg-gray-100 text-gray-700 hover:bg-gray-200">
+                <button x-on:click="$dispatch('close')"
+                    class="px-3 py-1.5 text-sm bg-gray-50 text-gray-700 hover:bg-gray-100 border border-gray-300 rounded-md">
                     {{ __('Cancel') }}
-                </x-secondary-button>
-                <x-danger-button class="px-6 bg-red-600 hover:bg-red-700 focus:ring-red-500">
+                </button>
+                <button type="submit"
+                    class="flex items-center px-3 py-1.5 text-sm bg-red-600 text-white rounded-md hover:bg-red-700 focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-colors duration-200">
+                    <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg>
                     {{ __('Delete Account') }}
-                </x-danger-button>
+                </button>
             </div>
         </form>
     </x-modal>

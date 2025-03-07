@@ -15,9 +15,12 @@ class Depense extends Model
         'title',
         'date',
         'category_id',
-        'price',
+        'montant',
         'type',
         'user_id'
+    ];
+    protected $casts = [
+        'date' => 'datetime'
     ];
 
     /**
@@ -26,5 +29,10 @@ class Depense extends Model
     public function category()
     {
         return $this->belongsTo(Category::class, 'category_id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
     }
 }

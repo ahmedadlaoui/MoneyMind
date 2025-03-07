@@ -24,7 +24,8 @@ class User extends Authenticatable
         'last_login',
         'monthly_income',
         'saving',
-        'role'
+        'role',
+        'salary_date'
     ];
 
     /**
@@ -47,7 +48,17 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
-            'last_login'=>'datetime'
+            'last_login' => 'datetime',
+            'salary_date' => 'date'
         ];
+    }
+
+    public function depenses()
+    {
+        return $this->hasMany(Depense::class, 'user_id');
+    }
+    public function goals()
+    {
+        return $this->hasMany(Goal::class);
     }
 }

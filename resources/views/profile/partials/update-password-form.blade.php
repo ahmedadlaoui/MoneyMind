@@ -68,22 +68,25 @@
             </div>
         </div>
 
-        <div class="flex items-center justify-end gap-4 mt-6 pt-6 border-t border-gray-100">
+        <div class="flex items-center justify-end gap-3 mt-6 pt-6 border-t border-gray-100">
             @if (session('status') === 'password-updated')
                 <div x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
                     class="flex items-center text-sm text-green-600 space-x-1">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                     </svg>
-                    <span>{{ __('Password updated successfully') }}</span>
+                    <span>{{ __('Updated') }}</span>
                 </div>
             @endif
-            <x-secondary-button type="reset" class="px-4 py-2 bg-gray-100 text-gray-700 hover:bg-gray-200">
+            <button type="reset" class="px-3 py-1.5 text-sm bg-gray-50 text-gray-700 hover:bg-gray-100 border border-gray-300 rounded-md">
                 {{ __('Cancel') }}
-            </x-secondary-button>
-            <x-primary-button class="bg-[#FF6F3C] hover:bg-[#ff5a24] focus:ring-[#FF6F3C] px-6">
-                {{ __('Update Password') }}
-            </x-primary-button>
+            </button>
+            <button type="submit" class="flex items-center px-3 py-1.5 text-sm bg-[#FF6F3C] text-white rounded-md hover:bg-[#ff5a24] focus:ring-2 focus:ring-[#FF6F3C] focus:ring-offset-2 transition-colors duration-200">
+                <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" />
+                </svg>
+                {{ __('Save Password') }}
+            </button>
         </div>
     </form>
 </section>
